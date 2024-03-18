@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./index.css"; //import css styles
 
 const pizzaData = [
   {
@@ -78,7 +78,12 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza />
+      <Pizza
+        name="Pizza Spinaci"
+        ingredient="Tomato, mozarella, spinach, and ricotta cheese"
+        photoName="pizzas/spinaci.jpg"
+        price="10"
+      />
       <Pizza />
       <Pizza />
       <Pizza />
@@ -118,7 +123,8 @@ function Footer() {
 // const Test = () => {}
 
 // Pizza component is reusable
-function Pizza() {
+function Pizza(props) {
+  console.log(props);
   return (
     <div>
       <img src="pizzas/spinaci.jpg" alt="pizza spinaci" />
