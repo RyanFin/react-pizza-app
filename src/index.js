@@ -49,7 +49,7 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Header />
       <Menu />
       <Footer />
@@ -59,28 +59,30 @@ function App() {
 
 function Header() {
   // inline styling
-  const style = {
-    color: "green",
-    fontSize: "5em",
-    textTransform: "uppercase",
-  };
+  // const style = {
+  //   color: "green",
+  //   fontSize: "5em",
+  //   textTransform: "uppercase",
+  // };
+
+  const style = {};
 
   return (
-    <h1 style={style} className="header">
-      Fast React Pizza Co.
-    </h1>
+    <header className="header">
+      <h1 style={style}>Fast React Pizza Co.</h1>
+    </header>
   );
 }
 
 function Menu() {
   return (
-    <div>
+    <main className="menu">
       <h2>Our Menu</h2>
       <Pizza />
       <Pizza />
       <Pizza />
       <Pizza />
-    </div>
+    </main>
   );
 }
 
@@ -120,7 +122,7 @@ function Pizza() {
   return (
     <div>
       <img src="pizzas/spinaci.jpg" alt="pizza spinaci" />
-      <h2>Pizza Spinaci</h2>
+      <h3>Pizza Spinaci</h3>
       <p>Tomato, mozarella, spinach, and ricotta cheese</p>
     </div>
   );
