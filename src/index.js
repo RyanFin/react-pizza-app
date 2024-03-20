@@ -75,18 +75,39 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
+
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza
+
+      {/* conditional rendering */}
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <>
+          <p>We are still looking on getting new pizzas ordered for you.</p>
+          <p>Please come back later :)</p>
+        </>
+      )}
+
+      {/* <Pizza
         name="Pizza Spinaci"
-        ingredient="Tomato, mozarella, spinach, and ricotta cheese"
+        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
         photoName="pizzas/spinaci.jpg"
-        price="10"
+        price={10}
       />
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      <Pizza
+        name="Focaccia"
+        ingredients="Bread with italian olive oil and rosemary"
+        photoName="pizzas/focaccia.jpg"
+        price={6}
+      /> */}
     </main>
   );
 }
@@ -95,12 +116,9 @@ function Menu() {
 
 function Footer() {
   const hour = new Date().getHours();
-  console.log(hour);
   const openHour = 12;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
-
-  console.log(isOpen);
 
   // if (hour >= openHour && hour <= closeHour) {
   //   alert("We're still open");
@@ -116,7 +134,33 @@ function Footer() {
     }, 1000);
   }, []);
 
-  return <footer>{time} We're currently open!</footer>;
+  // multiple returns. This one acts as insurance. Must be placed after hooks
+  // better for rendering components
+  // if (!isOpen)
+  //   return (
+  //     <p>
+  //       We're happy to serve you pizza between {openHour}:00 and {closeHour}
+  //       :00.
+  //     </p>
+  //   );
+
+  return (
+    <footer className="footer">
+      {isOpen ? (
+        <div className="order">
+          <p>
+            {time} We're open until {closeHour}:00. Come visit us or order
+            online.
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <p>
+          We're happy to serve you between {openHour}:00 and {closeHour}:00.
+        </p>
+      )}
+    </footer>
+  );
   // return React.createElement("footer", null, "We're currently open!");
 }
 
@@ -125,12 +169,19 @@ function Footer() {
 // Pizza component is reusable
 function Pizza(props) {
   console.log(props);
+
+  // early return
+  if (props.pizzaObj.soldOut) return null;
+
   return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="pizza spinaci" />
-      <h3>Pizza Spinaci</h3>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <div>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
+      </div>
+    </li>
   );
 }
 
