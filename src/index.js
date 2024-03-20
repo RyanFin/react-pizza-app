@@ -15,7 +15,7 @@ const pizzaData = [
     ingredients: "Tomato and mozarella",
     price: 10,
     photoName: "pizzas/margherita.jpg",
-    soldOut: false,
+    soldOut: true,
   },
   {
     name: "Pizza Spinaci",
@@ -81,14 +81,24 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our Menu</h2>
+      <h3>"Slice to Speed, Savor the Quick!"</h3>
 
       {/* conditional rendering */}
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <React.Fragment>
+          <p>
+            Indulge in the essence of Italy with our exquisite pizza selection
+            at Fast React Pizza Co. Offering six mouthwatering varieties crafted
+            with authentic Italian flavors and premium ingredients. From classic
+            Margherita to tantalizing Pepperoni, each pizza promises a
+            delightful journey through the taste of Italy.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </React.Fragment>
       ) : (
         <>
           <p>We are still looking on getting new pizzas ordered for you.</p>
@@ -158,13 +168,12 @@ function Footer() {
   // return React.createElement("footer", null, "We're currently open!");
 }
 
-function Order(props) {
+// must match the name of the prop
+function Order({ time, closeHour }) {
   return (
     <div className="order">
-      <p>Current Time: {props.time} </p>
-      <p>
-        We're open until {props.closeHour}:00. Come visit us or order online.
-      </p>
+      <p>Current Time: {time} </p>
+      <p>We're open until {closeHour}:00. Come visit us or order online.</p>
       <button className="btn">Order</button>
     </div>
   );
@@ -173,19 +182,27 @@ function Order(props) {
 // const Test = () => {}
 
 // Pizza component is reusable
-function Pizza(props) {
-  console.log(props);
+// call props 'pizzaObj' so that we can use destructuring so that we do not have to prefix
+// the word 'props' all the time
+function Pizza({ pizzaObj }) {
+  console.log(pizzaObj);
 
   // early return
-  if (props.pizzaObj.soldOut) return null;
+  // if (pizzaObj.soldOut) return null;
 
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    // use a template literal and execute JS to modify CSS on condition
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        {/* {pizzaObj.soldOut ? (
+          <span>SOLD OUT</span>
+        ) : (
+          <span>{pizzaObj.price}</span>
+        )} */}
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
       </div>
     </li>
   );
